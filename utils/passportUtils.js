@@ -40,12 +40,7 @@ passport.deserializeUser(async (userId, done) => {
       id: userId,
     },
     include: {
-      uploadedFiles: true,
-      profile: true,
-      folders: true,
-      _count: {
-        select: { uploadedFiles: true },
-      },
+      posts: true,
     },
   });
   done(null, user);

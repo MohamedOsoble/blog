@@ -1,11 +1,10 @@
 const { Router } = require("express");
+const controller = require("../controllers/users");
 
 const router = Router();
 
-router.get("/", (req, res) => {
-  return res.json({
-    users: [{ name: "Mohamed", role: "Author" }],
-  });
-});
+router.post("/", controller.newUser);
+router.put("/:userId", controller.updateRole);
+router.get(":/userId", controller.findUser);
 
 module.exports = router;
