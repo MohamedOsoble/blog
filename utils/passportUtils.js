@@ -1,12 +1,23 @@
+require("dotenv").config();
+
 const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
 const { validPassword } = require("./passwordUtils");
 const { PrismaClient } = require("../generated/prisma");
+const passport = require("passport");
+const passportJWT = require("passport-jwt");
+const { Prisma } = require("@prisma/client");
+const LocalStrategy = require("passport-local").Strategy;
+const ExtractJWT = passportJWT.ExtractJwt;
+const JWTStrategy = passportJWT.Strategy;
 
-// Instantiate Prisma Client
+// Instantiate Prisma Client & Load jwt options
 const prisma = new PrismaClient();
+const JWTOptions = {
+  jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+  secretOrKey: process.env.SECRET_KEY,
+};
 
-async function verifyCallback(username, password, done) {
+async function localVerifyCallback(username, password, done) {
   try {
     const user = await prisma.user.findUnique({
       where: { username: username },
@@ -26,9 +37,19 @@ async function verifyCallback(username, password, done) {
   }
 }
 
-const strategy = new LocalStrategy(verifyCallback);
+async function jwtVerifyCallback(jwtPayload, done) {
+  try {
+    const user = await Prisma.user.findFirst({
+      where: { id: jwtPayload.id },
+    });
+    return done(null, user);
+  } catch (err) {
+    return done(err);
+  }
+}
 
-passport.use(strategy);
+passport.use(new LocalStrategy(localVerifyCallback));
+passport.use(new JWTStrategy(JWTOptions, jwtVerifyCallback));
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
