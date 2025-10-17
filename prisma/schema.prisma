@@ -42,7 +42,6 @@ model Comments {
   post            Posts      @relation(fields: [postId], references: [id])
   postId          String
   likes           Int?
-  dislikes        Int?
   createdAt       DateTime   @default(now())
   parentCommentId String?
   parentComment   Comments?  @relation("ParentReplies", fields: [parentCommentId], references: [id])
