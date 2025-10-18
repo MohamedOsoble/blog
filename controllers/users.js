@@ -1,5 +1,5 @@
 const { PrismaClient } = require("../generated/prisma");
-const genPassword = require("../utils/passwordUtils").genPassword;
+const genPassword = require("../lib/utils").genPassword;
 
 const Prisma = new PrismaClient();
 
