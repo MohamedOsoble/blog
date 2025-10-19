@@ -2,11 +2,12 @@ const { Router } = require("express");
 const controller = require("../controllers/users");
 const passport = require("passport");
 const utils = require("../lib/utils");
+const auth = passport.authenticate("jwt", { session: false });
 
 const router = Router();
 
-router.post("/", controller.newUser);
-router.put("/:userId", controller.updateRole);
+router.post("/register", utils.registrationValidator, controller.newUser);
+router.put("/:userId", auth, controller.updateRole);
 router.get("/:userId", controller.findUser);
 router.post("/login", function (req, res, next) {
   passport.authenticate("local", { session: false }, (err, user, info) => {
