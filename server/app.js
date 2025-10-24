@@ -1,5 +1,6 @@
 const express = require("express");
 const routes = require("./routes");
+const cors = require("cors");
 require("./passport/passport");
 
 // Initialize app
@@ -7,6 +8,7 @@ const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cors());
 
 // Add the routes
 app.use("/posts", routes.posts);

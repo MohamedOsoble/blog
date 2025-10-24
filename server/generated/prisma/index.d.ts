@@ -2236,6 +2236,8 @@ export namespace Prisma {
     authorId: string | null
     title: string | null
     content: string | null
+    description: string | null
+    tag: string | null
     createdAt: Date | null
     lastUpdate: Date | null
     isPublished: boolean | null
@@ -2246,6 +2248,8 @@ export namespace Prisma {
     authorId: string | null
     title: string | null
     content: string | null
+    description: string | null
+    tag: string | null
     createdAt: Date | null
     lastUpdate: Date | null
     isPublished: boolean | null
@@ -2256,6 +2260,8 @@ export namespace Prisma {
     authorId: number
     title: number
     content: number
+    description: number
+    tag: number
     createdAt: number
     lastUpdate: number
     isPublished: number
@@ -2268,6 +2274,8 @@ export namespace Prisma {
     authorId?: true
     title?: true
     content?: true
+    description?: true
+    tag?: true
     createdAt?: true
     lastUpdate?: true
     isPublished?: true
@@ -2278,6 +2286,8 @@ export namespace Prisma {
     authorId?: true
     title?: true
     content?: true
+    description?: true
+    tag?: true
     createdAt?: true
     lastUpdate?: true
     isPublished?: true
@@ -2288,6 +2298,8 @@ export namespace Prisma {
     authorId?: true
     title?: true
     content?: true
+    description?: true
+    tag?: true
     createdAt?: true
     lastUpdate?: true
     isPublished?: true
@@ -2371,6 +2383,8 @@ export namespace Prisma {
     authorId: string
     title: string
     content: string
+    description: string
+    tag: string
     createdAt: Date
     lastUpdate: Date
     isPublished: boolean
@@ -2398,6 +2412,8 @@ export namespace Prisma {
     authorId?: boolean
     title?: boolean
     content?: boolean
+    description?: boolean
+    tag?: boolean
     createdAt?: boolean
     lastUpdate?: boolean
     isPublished?: boolean
@@ -2411,6 +2427,8 @@ export namespace Prisma {
     authorId?: boolean
     title?: boolean
     content?: boolean
+    description?: boolean
+    tag?: boolean
     createdAt?: boolean
     lastUpdate?: boolean
     isPublished?: boolean
@@ -2422,6 +2440,8 @@ export namespace Prisma {
     authorId?: boolean
     title?: boolean
     content?: boolean
+    description?: boolean
+    tag?: boolean
     createdAt?: boolean
     lastUpdate?: boolean
     isPublished?: boolean
@@ -2433,12 +2453,14 @@ export namespace Prisma {
     authorId?: boolean
     title?: boolean
     content?: boolean
+    description?: boolean
+    tag?: boolean
     createdAt?: boolean
     lastUpdate?: boolean
     isPublished?: boolean
   }
 
-  export type PostsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "authorId" | "title" | "content" | "createdAt" | "lastUpdate" | "isPublished", ExtArgs["result"]["posts"]>
+  export type PostsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "authorId" | "title" | "content" | "description" | "tag" | "createdAt" | "lastUpdate" | "isPublished", ExtArgs["result"]["posts"]>
   export type PostsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     author?: boolean | UserDefaultArgs<ExtArgs>
     comments?: boolean | Posts$commentsArgs<ExtArgs>
@@ -2462,6 +2484,8 @@ export namespace Prisma {
       authorId: string
       title: string
       content: string
+      description: string
+      tag: string
       createdAt: Date
       lastUpdate: Date
       isPublished: boolean
@@ -2894,6 +2918,8 @@ export namespace Prisma {
     readonly authorId: FieldRef<"Posts", 'String'>
     readonly title: FieldRef<"Posts", 'String'>
     readonly content: FieldRef<"Posts", 'String'>
+    readonly description: FieldRef<"Posts", 'String'>
+    readonly tag: FieldRef<"Posts", 'String'>
     readonly createdAt: FieldRef<"Posts", 'DateTime'>
     readonly lastUpdate: FieldRef<"Posts", 'DateTime'>
     readonly isPublished: FieldRef<"Posts", 'Boolean'>
@@ -4540,6 +4566,8 @@ export namespace Prisma {
     authorId: 'authorId',
     title: 'title',
     content: 'content',
+    description: 'description',
+    tag: 'tag',
     createdAt: 'createdAt',
     lastUpdate: 'lastUpdate',
     isPublished: 'isPublished'
@@ -4733,6 +4761,8 @@ export namespace Prisma {
     authorId?: StringFilter<"Posts"> | string
     title?: StringFilter<"Posts"> | string
     content?: StringFilter<"Posts"> | string
+    description?: StringFilter<"Posts"> | string
+    tag?: StringFilter<"Posts"> | string
     createdAt?: DateTimeFilter<"Posts"> | Date | string
     lastUpdate?: DateTimeFilter<"Posts"> | Date | string
     isPublished?: BoolFilter<"Posts"> | boolean
@@ -4745,6 +4775,8 @@ export namespace Prisma {
     authorId?: SortOrder
     title?: SortOrder
     content?: SortOrder
+    description?: SortOrder
+    tag?: SortOrder
     createdAt?: SortOrder
     lastUpdate?: SortOrder
     isPublished?: SortOrder
@@ -4760,6 +4792,8 @@ export namespace Prisma {
     authorId?: StringFilter<"Posts"> | string
     title?: StringFilter<"Posts"> | string
     content?: StringFilter<"Posts"> | string
+    description?: StringFilter<"Posts"> | string
+    tag?: StringFilter<"Posts"> | string
     createdAt?: DateTimeFilter<"Posts"> | Date | string
     lastUpdate?: DateTimeFilter<"Posts"> | Date | string
     isPublished?: BoolFilter<"Posts"> | boolean
@@ -4772,6 +4806,8 @@ export namespace Prisma {
     authorId?: SortOrder
     title?: SortOrder
     content?: SortOrder
+    description?: SortOrder
+    tag?: SortOrder
     createdAt?: SortOrder
     lastUpdate?: SortOrder
     isPublished?: SortOrder
@@ -4788,6 +4824,8 @@ export namespace Prisma {
     authorId?: StringWithAggregatesFilter<"Posts"> | string
     title?: StringWithAggregatesFilter<"Posts"> | string
     content?: StringWithAggregatesFilter<"Posts"> | string
+    description?: StringWithAggregatesFilter<"Posts"> | string
+    tag?: StringWithAggregatesFilter<"Posts"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Posts"> | Date | string
     lastUpdate?: DateTimeWithAggregatesFilter<"Posts"> | Date | string
     isPublished?: BoolWithAggregatesFilter<"Posts"> | boolean
@@ -4930,6 +4968,8 @@ export namespace Prisma {
     id?: string
     title: string
     content: string
+    description: string
+    tag?: string
     createdAt?: Date | string
     lastUpdate?: Date | string
     isPublished?: boolean
@@ -4942,6 +4982,8 @@ export namespace Prisma {
     authorId: string
     title: string
     content: string
+    description: string
+    tag?: string
     createdAt?: Date | string
     lastUpdate?: Date | string
     isPublished?: boolean
@@ -4952,6 +4994,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    tag?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdate?: DateTimeFieldUpdateOperationsInput | Date | string
     isPublished?: BoolFieldUpdateOperationsInput | boolean
@@ -4964,6 +5008,8 @@ export namespace Prisma {
     authorId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    tag?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdate?: DateTimeFieldUpdateOperationsInput | Date | string
     isPublished?: BoolFieldUpdateOperationsInput | boolean
@@ -4975,6 +5021,8 @@ export namespace Prisma {
     authorId: string
     title: string
     content: string
+    description: string
+    tag?: string
     createdAt?: Date | string
     lastUpdate?: Date | string
     isPublished?: boolean
@@ -4984,6 +5032,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    tag?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdate?: DateTimeFieldUpdateOperationsInput | Date | string
     isPublished?: BoolFieldUpdateOperationsInput | boolean
@@ -4994,6 +5044,8 @@ export namespace Prisma {
     authorId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    tag?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdate?: DateTimeFieldUpdateOperationsInput | Date | string
     isPublished?: BoolFieldUpdateOperationsInput | boolean
@@ -5191,6 +5243,8 @@ export namespace Prisma {
     authorId?: SortOrder
     title?: SortOrder
     content?: SortOrder
+    description?: SortOrder
+    tag?: SortOrder
     createdAt?: SortOrder
     lastUpdate?: SortOrder
     isPublished?: SortOrder
@@ -5201,6 +5255,8 @@ export namespace Prisma {
     authorId?: SortOrder
     title?: SortOrder
     content?: SortOrder
+    description?: SortOrder
+    tag?: SortOrder
     createdAt?: SortOrder
     lastUpdate?: SortOrder
     isPublished?: SortOrder
@@ -5211,6 +5267,8 @@ export namespace Prisma {
     authorId?: SortOrder
     title?: SortOrder
     content?: SortOrder
+    description?: SortOrder
+    tag?: SortOrder
     createdAt?: SortOrder
     lastUpdate?: SortOrder
     isPublished?: SortOrder
@@ -5719,6 +5777,8 @@ export namespace Prisma {
     id?: string
     title: string
     content: string
+    description: string
+    tag?: string
     createdAt?: Date | string
     lastUpdate?: Date | string
     isPublished?: boolean
@@ -5729,6 +5789,8 @@ export namespace Prisma {
     id?: string
     title: string
     content: string
+    description: string
+    tag?: string
     createdAt?: Date | string
     lastUpdate?: Date | string
     isPublished?: boolean
@@ -5769,6 +5831,8 @@ export namespace Prisma {
     authorId?: StringFilter<"Posts"> | string
     title?: StringFilter<"Posts"> | string
     content?: StringFilter<"Posts"> | string
+    description?: StringFilter<"Posts"> | string
+    tag?: StringFilter<"Posts"> | string
     createdAt?: DateTimeFilter<"Posts"> | Date | string
     lastUpdate?: DateTimeFilter<"Posts"> | Date | string
     isPublished?: BoolFilter<"Posts"> | boolean
@@ -5885,6 +5949,8 @@ export namespace Prisma {
     id?: string
     title: string
     content: string
+    description: string
+    tag?: string
     createdAt?: Date | string
     lastUpdate?: Date | string
     isPublished?: boolean
@@ -5896,6 +5962,8 @@ export namespace Prisma {
     authorId: string
     title: string
     content: string
+    description: string
+    tag?: string
     createdAt?: Date | string
     lastUpdate?: Date | string
     isPublished?: boolean
@@ -5976,6 +6044,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    tag?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdate?: DateTimeFieldUpdateOperationsInput | Date | string
     isPublished?: BoolFieldUpdateOperationsInput | boolean
@@ -5987,6 +6057,8 @@ export namespace Prisma {
     authorId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    tag?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdate?: DateTimeFieldUpdateOperationsInput | Date | string
     isPublished?: BoolFieldUpdateOperationsInput | boolean
@@ -6043,6 +6115,8 @@ export namespace Prisma {
     id?: string
     title: string
     content: string
+    description: string
+    tag?: string
     createdAt?: Date | string
     lastUpdate?: Date | string
     isPublished?: boolean
@@ -6052,6 +6126,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    tag?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdate?: DateTimeFieldUpdateOperationsInput | Date | string
     isPublished?: BoolFieldUpdateOperationsInput | boolean
@@ -6062,6 +6138,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    tag?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdate?: DateTimeFieldUpdateOperationsInput | Date | string
     isPublished?: BoolFieldUpdateOperationsInput | boolean
@@ -6072,6 +6150,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    tag?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdate?: DateTimeFieldUpdateOperationsInput | Date | string
     isPublished?: BoolFieldUpdateOperationsInput | boolean

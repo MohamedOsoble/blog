@@ -2,14 +2,28 @@ const { PrismaClient } = require("../generated/prisma");
 const Prisma = new PrismaClient();
 
 module.exports.allPosts = async function (req, res, next) {
-  return res.json(await Prisma.posts.findMany({}));
+  return res.json(
+    await Prisma.posts.findMany({
+      where: { isPublished: true },
+      include: {
+        author: { select: { username: true } },
+        comments: { include: { replies: true } },
+      },
+    })
+  );
 };
 
 module.exports.postById = async function (req, res, next) {
   return res.json(
     await Prisma.posts.findFirst({
       where: { id: req.params.postId },
-      include: { comments: true },
+      include: {
+        comments: {
+          where: { parentCommentId: null },
+          include: { replies: true },
+        },
+        author: { select: { username: true } },
+      },
     })
   );
 };

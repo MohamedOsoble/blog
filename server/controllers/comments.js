@@ -3,7 +3,7 @@ const Prisma = new PrismaClient();
 
 module.exports.newComment = async function (req, res, next) {
   return res.json(
-    Prisma.comments.create({
+    await Prisma.comments.create({
       data: {
         name: req.body.name,
         content: req.body.content,
@@ -15,12 +15,12 @@ module.exports.newComment = async function (req, res, next) {
 
 module.exports.reply = async function (req, res, next) {
   return res.json(
-    Prisma.comments.create({
+    await Prisma.comments.create({
       data: {
         name: req.body.name,
         content: req.body.content,
         postId: req.params.postId,
-        parentCommentId: req.body.commentId,
+        parentCommentId: req.body.parentId,
       },
     })
   );
@@ -28,7 +28,7 @@ module.exports.reply = async function (req, res, next) {
 
 module.exports.likeComment = async function (req, res, next) {
   return res.json(
-    Prisma.comments.update({
+    await Prisma.comments.update({
       where: { id: req.body.commentId },
       data: { likes: { increment: 1 } },
     })
@@ -37,7 +37,7 @@ module.exports.likeComment = async function (req, res, next) {
 
 module.exports.dislikeComment = async function (req, res, next) {
   return res.json(
-    Prisma.comments.update({
+    await Prisma.comments.update({
       where: { id: req.body.commentId },
       data: { likes: { decrement: 1 } },
     })

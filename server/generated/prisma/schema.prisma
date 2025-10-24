@@ -29,6 +29,8 @@ model Posts {
   authorId    String
   title       String
   content     String
+  description String
+  tag         String     @default("Misc")
   comments    Comments[]
   createdAt   DateTime   @default(now())
   lastUpdate  DateTime   @default(now())
@@ -39,7 +41,7 @@ model Comments {
   id              String     @id @default(uuid())
   name            String
   content         String
-  post            Posts      @relation(fields: [postId], references: [id])
+  post            Posts      @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId          String
   likes           Int?
   createdAt       DateTime   @default(now())

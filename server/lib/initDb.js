@@ -1,7 +1,10 @@
 const { PrismaClient } = require("../generated/prisma");
-const { all } = require("../routes/users");
-const genPassword = require("./passwordUtils").genPassword;
+const genPassword = require("./utils").genPassword;
 const Prisma = new PrismaClient();
+
+async function clearPosts() {
+  await Prisma.posts.deleteMany();
+}
 
 async function createUsers() {
   const usersList = [
@@ -31,28 +34,43 @@ async function createPosts() {
   const postsList = [
     {
       title: "First post!",
+      tag: "Misc",
+      description: "Some random description",
       content: "Some random content",
       authorId: allAuthors[0].id,
+      isPublished: true,
     },
     {
       title: "First post!",
+      tag: "Misc",
+      description: "Some random description",
       content: "Some random content",
       authorId: allAuthors[1].id,
+      isPublished: true,
     },
     {
       title: "First post!",
+      tag: "Misc",
+      description: "Some random description",
       content: "Some random content",
       authorId: allAuthors[2].id,
+      isPublished: true,
     },
     {
       title: "First post!",
+      tag: "Misc",
+      description: "Some random description",
       content: "Some random content",
       authorId: allAuthors[0].id,
+      isPublished: true,
     },
     {
       title: "First post!",
+      tag: "Misc",
+      description: "Some random description",
       content: "Some random content",
       authorId: allAuthors[1].id,
+      isPublished: true,
     },
   ];
   const posts = await Prisma.posts.createManyAndReturn({
@@ -82,7 +100,8 @@ async function createComments(allPosts) {
 }
 
 async function main() {
-  //await createUsers();
+  await createUsers();
+  await clearPosts();
   const allPosts = await createPosts();
   await createComments(allPosts);
 }

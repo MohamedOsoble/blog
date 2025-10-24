@@ -105,6 +105,8 @@ exports.Prisma.PostsScalarFieldEnum = {
   authorId: 'authorId',
   title: 'title',
   content: 'content',
+  description: 'description',
+  tag: 'tag',
   createdAt: 'createdAt',
   lastUpdate: 'lastUpdate',
   isPublished: 'isPublished'
@@ -155,7 +157,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/home/mohamed/repos/Odin Project/NodeJS/blog/generated/prisma",
+      "value": "/home/mohamed/repos/Odin Project/NodeJS/blog/server/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -169,7 +171,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/home/mohamed/repos/Odin Project/NodeJS/blog/prisma/schema.prisma",
+    "sourceFilePath": "/home/mohamed/repos/Odin Project/NodeJS/blog/server/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -183,7 +185,6 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -192,13 +193,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id       String  @id @default(uuid())\n  username String  @unique\n  hash     String\n  salt     String\n  role     Role    @default(USER)\n  posts    Posts[]\n}\n\nmodel Posts {\n  id          String     @id @default(uuid())\n  author      User       @relation(fields: [authorId], references: [id])\n  authorId    String\n  title       String\n  content     String\n  comments    Comments[]\n  createdAt   DateTime   @default(now())\n  lastUpdate  DateTime   @default(now())\n  isPublished Boolean    @default(false)\n}\n\nmodel Comments {\n  id              String     @id @default(uuid())\n  name            String\n  content         String\n  post            Posts      @relation(fields: [postId], references: [id])\n  postId          String\n  likes           Int?\n  createdAt       DateTime   @default(now())\n  parentCommentId String?\n  parentComment   Comments?  @relation(\"ParentReplies\", fields: [parentCommentId], references: [id])\n  replies         Comments[] @relation(\"ParentReplies\")\n}\n\nenum Role {\n  USER\n  ADMIN\n}\n",
-  "inlineSchemaHash": "d1789eb5543075ea5fd22a2d46a4d61f06282b83c8d175f7bbf279f75f8a4a11",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id       String  @id @default(uuid())\n  username String  @unique\n  hash     String\n  salt     String\n  role     Role    @default(USER)\n  posts    Posts[]\n}\n\nmodel Posts {\n  id          String     @id @default(uuid())\n  author      User       @relation(fields: [authorId], references: [id])\n  authorId    String\n  title       String\n  content     String\n  description String\n  tag         String     @default(\"Misc\")\n  comments    Comments[]\n  createdAt   DateTime   @default(now())\n  lastUpdate  DateTime   @default(now())\n  isPublished Boolean    @default(false)\n}\n\nmodel Comments {\n  id              String     @id @default(uuid())\n  name            String\n  content         String\n  post            Posts      @relation(fields: [postId], references: [id], onDelete: Cascade)\n  postId          String\n  likes           Int?\n  createdAt       DateTime   @default(now())\n  parentCommentId String?\n  parentComment   Comments?  @relation(\"ParentReplies\", fields: [parentCommentId], references: [id])\n  replies         Comments[] @relation(\"ParentReplies\")\n}\n\nenum Role {\n  USER\n  ADMIN\n}\n",
+  "inlineSchemaHash": "47ffc6710b615f6f21961fcb69bb2db3649c0b474d170a97a12932152e3e82f6",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"username\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"hash\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"salt\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"posts\",\"kind\":\"object\",\"type\":\"Posts\",\"relationName\":\"PostsToUser\"}],\"dbName\":null},\"Posts\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"author\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"PostsToUser\"},{\"name\":\"authorId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"comments\",\"kind\":\"object\",\"type\":\"Comments\",\"relationName\":\"CommentsToPosts\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"lastUpdate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"isPublished\",\"kind\":\"scalar\",\"type\":\"Boolean\"}],\"dbName\":null},\"Comments\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"post\",\"kind\":\"object\",\"type\":\"Posts\",\"relationName\":\"CommentsToPosts\"},{\"name\":\"postId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"likes\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"parentCommentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"parentComment\",\"kind\":\"object\",\"type\":\"Comments\",\"relationName\":\"ParentReplies\"},{\"name\":\"replies\",\"kind\":\"object\",\"type\":\"Comments\",\"relationName\":\"ParentReplies\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"username\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"hash\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"salt\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"posts\",\"kind\":\"object\",\"type\":\"Posts\",\"relationName\":\"PostsToUser\"}],\"dbName\":null},\"Posts\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"author\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"PostsToUser\"},{\"name\":\"authorId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tag\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"comments\",\"kind\":\"object\",\"type\":\"Comments\",\"relationName\":\"CommentsToPosts\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"lastUpdate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"isPublished\",\"kind\":\"scalar\",\"type\":\"Boolean\"}],\"dbName\":null},\"Comments\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"post\",\"kind\":\"object\",\"type\":\"Posts\",\"relationName\":\"CommentsToPosts\"},{\"name\":\"postId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"likes\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"parentCommentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"parentComment\",\"kind\":\"object\",\"type\":\"Comments\",\"relationName\":\"ParentReplies\"},{\"name\":\"replies\",\"kind\":\"object\",\"type\":\"Comments\",\"relationName\":\"ParentReplies\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),
