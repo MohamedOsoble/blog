@@ -1,11 +1,10 @@
-import { getPosts } from "../../utils/Api";
+import { getPosts, newPost } from "../../utils/Api";
 
 export async function getPostStore(userid) {
+  console.log("Get store called");
   const response = await getPosts(userid);
   const posts = response.data;
-  posts.forEach((post) => {
-    console.log(post);
-  });
+  console.log(posts);
   return posts;
 }
 
@@ -97,20 +96,27 @@ export async function getOne(postId, userid) {
 }
 
 export async function createOne(data, userid) {
-  const postsStore = getPostStore(userid);
+  //console.log(postsStore);
 
   const newpost = {
-    id: postsStore.reduce((max, post) => Math.max(max, post.id), 0) + 1,
     ...data,
+    authorId: userid,
   };
 
-  setpostsStore([...postsStore, newpost]);
-
-  return newpost;
+  try {
+    console.log(newpost);
+    const response = await newPost(newpost);
+    console.log(response);
+    const postsStore = await getPostStore(userid);
+    return response;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
 }
 
 export async function updateOne(postId, data, userid) {
-  const postsStore = getPostStore(userid);
+  const postsStore = await getPostStore(userid);
 
   let updatedpost = null;
 
@@ -141,31 +147,32 @@ export async function deleteOne(postId, userid) {
 export function validate(post) {
   let issues = [];
 
-  if (!post.name) {
-    issues = [...issues, { message: "Name is required", path: ["name"] }];
+  if (!post.title) {
+    issues = [...issues, { message: "Title is required", path: ["title"] }];
   }
 
-  if (!post.age) {
-    issues = [...issues, { message: "Age is required", path: ["age"] }];
-  } else if (post.age < 18) {
-    issues = [...issues, { message: "Age must be at least 18", path: ["age"] }];
-  }
-
-  if (!post.joinDate) {
+  if (!post.description) {
     issues = [
       ...issues,
-      { message: "Join date is required", path: ["joinDate"] },
+      { message: "Description is required", path: ["description"] },
     ];
   }
 
-  if (!post.role) {
-    issues = [...issues, { message: "Role is required", path: ["role"] }];
-  } else if (!["Market", "Finance", "Development"].includes(post.role)) {
+  if (!post.createDate) {
+    issues = [
+      ...issues,
+      { message: "Create date is required", path: ["createDate"] },
+    ];
+  }
+
+  if (!post.tag) {
+    issues = [...issues, { message: "Tag is required", path: ["tag"] }];
+  } else if (!["Educational", "Personal", "Misc"].includes(post.tag)) {
     issues = [
       ...issues,
       {
-        message: 'Role must be "Market", "Finance" or "Development"',
-        path: ["role"],
+        message: 'Role must be "Educational", "Personal" or "Misc"',
+        path: ["tag"],
       },
     ];
   }

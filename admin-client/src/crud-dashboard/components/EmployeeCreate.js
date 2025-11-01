@@ -8,16 +8,24 @@ import {
 import PostForm from "./PostForm";
 import PageContainer from "./PageContainer";
 import TextEditor from "./TextEditor";
+import { setContent } from "@tiptap/core";
+import { useUser } from "../../utils/Auth";
 
 const INITIAL_FORM_VALUES = {
-  role: "Market",
-  isFullTime: true,
+  title: "Default Title",
+  description: "Default description",
+  tag: "Misc",
+  isPublished: false,
+  content: "",
 };
 
 export default function PostCreate() {
   const navigate = useNavigate();
+  const { user } = useUser();
 
   const notifications = useNotifications();
+
+  const [contentState, setContentState] = React.useState("");
 
   const [formState, setFormState] = React.useState(() => ({
     values: INITIAL_FORM_VALUES,
@@ -75,7 +83,7 @@ export default function PostCreate() {
     setFormErrors({});
 
     try {
-      await createPost(formValues);
+      await createPost(formValues, user);
       notifications.show("Post created successfully.", {
         severity: "success",
         autoHideDuration: 3000,
@@ -94,20 +102,30 @@ export default function PostCreate() {
     }
   }, [formValues, navigate, notifications, setFormErrors]);
 
+  const updatePostState = (content) => {
+    handleFormFieldChange("content", content);
+  };
+
+  React.useEffect(() => {
+    console.log(contentState);
+  }, [contentState, setContentState]);
+
   return (
-    <PageContainer
-      title="New Post"
-      breadcrumbs={[{ title: "Posts", path: "/posts" }, { title: "New" }]}
-    >
-      <PostForm
-        formState={formState}
-        onFieldChange={handleFormFieldChange}
-        onSubmit={handleFormSubmit}
-        onReset={handleFormReset}
-        submitButtonLabel="Create"
+    <>
+      <PageContainer
+        title="New Post"
+        breadcrumbs={[{ title: "Posts", path: "/posts" }, { title: "New" }]}
       >
-        <TextEditor />
-      </PostForm>
-    </PageContainer>
+        <PostForm
+          formState={formState}
+          onFieldChange={handleFormFieldChange}
+          onSubmit={handleFormSubmit}
+          onReset={handleFormReset}
+          submitButtonLabel="Create"
+          postState={contentState}
+          updatePostState={updatePostState}
+        ></PostForm>
+      </PageContainer>
+    </>
   );
 }

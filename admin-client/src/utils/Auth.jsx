@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import { Login, Logout } from "./Api";
 import { isAuthenticated } from "./Api";
 // components
@@ -14,9 +13,9 @@ function UserProvider(props) {
   // fetch user on mount
   React.useEffect(() => {
     // checks if user is logged in
+    console.log("Is authenticated is called");
     isAuthenticated()
       .then(function (response) {
-        console.log(response.data.id);
         setUser(response.data.id);
       })
       .catch((error) => {
@@ -26,7 +25,7 @@ function UserProvider(props) {
 
   const login = React.useCallback(async (data) => {
     const response = await Login(data);
-    if (response.status == 200) {
+    if (response.status === 200) {
       console.log(response.data.user.id);
       setUser(response.data.user.id);
     }
@@ -55,6 +54,7 @@ function UserProvider(props) {
 // use user context hook
 function useUser() {
   const context = React.useContext(UserContext);
+  console.log("Use User called");
   if (context === undefined) {
     throw new Error("useUser() must be used within a UserProvider");
   }

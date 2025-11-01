@@ -1,6 +1,7 @@
 import * as React from "react";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
+import { Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
 import FormControl from "@mui/material/FormControl";
@@ -18,7 +19,9 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router";
+import TextEditor from "./mui-editor/App";
 import dayjs from "dayjs";
+import "dayjs/locale/en-gb";
 
 function PostForm(props) {
   const {
@@ -28,10 +31,13 @@ function PostForm(props) {
     onReset,
     submitButtonLabel,
     backButtonPath,
+    postState,
+    updatePostState,
   } = props;
 
   const formValues = formState.values;
   const formErrors = formState.errors;
+  const [currentVal, setCurrentVal] = React.useState();
 
   const navigate = useNavigate();
 
@@ -43,24 +49,24 @@ function PostForm(props) {
 
       setIsSubmitting(true);
       try {
-        await onSubmit(formValues);
+        await onSubmit(formValues, postState);
       } finally {
         setIsSubmitting(false);
       }
     },
-    [formValues, onSubmit]
+    [formValues, postState, onSubmit]
   );
+
+  const [formData, setFormData] = React.useState({});
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
   const handleTextFieldChange = React.useCallback(
     (event) => {
       onFieldChange(event.target.name, event.target.value);
-    },
-    [onFieldChange]
-  );
-
-  const handleNumberFieldChange = React.useCallback(
-    (event) => {
-      onFieldChange(event.target.name, Number(event.target.value));
     },
     [onFieldChange]
   );
@@ -113,38 +119,42 @@ function PostForm(props) {
         <Grid container spacing={2} sx={{ mb: 2, width: "100%" }}>
           <Grid size={{ xs: 12, sm: 6 }} sx={{ display: "flex" }}>
             <TextField
-              value={formValues.name ?? ""}
+              value={formValues.title ?? ""}
               onChange={handleTextFieldChange}
-              name="name"
-              label="Name"
-              error={!!formErrors.name}
-              helperText={formErrors.name ?? " "}
+              name="title"
+              label="Post Title"
+              error={!!formErrors.title}
+              helperText={formErrors.title ?? " "}
               fullWidth
             />
           </Grid>
           <Grid size={{ xs: 12, sm: 6 }} sx={{ display: "flex" }}>
             <TextField
-              type="number"
-              value={formValues.age ?? ""}
-              onChange={handleNumberFieldChange}
-              name="age"
-              label="Age"
-              error={!!formErrors.age}
-              helperText={formErrors.age ?? " "}
+              value={formValues.description ?? ""}
+              onChange={handleTextFieldChange}
+              name="description"
+              label="Post Description"
+              error={!!formErrors.description}
+              helperText={formErrors.description ?? " "}
               fullWidth
             />
           </Grid>
           <Grid size={{ xs: 12, sm: 6 }} sx={{ display: "flex" }}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <LocalizationProvider
+              adapterLocale="en-gb"
+              dateAdapter={AdapterDayjs}
+            >
               <DatePicker
-                value={formValues.joinDate ? dayjs(formValues.joinDate) : null}
-                onChange={handleDateFieldChange("joinDate")}
-                name="joinDate"
-                label="Join date"
+                value={
+                  formValues.createDate ? dayjs(formValues.createDate) : null
+                }
+                onChange={handleDateFieldChange("createDate")}
+                name="createDate"
+                label="Post created on: "
                 slotProps={{
                   textField: {
-                    error: !!formErrors.joinDate,
-                    helperText: formErrors.joinDate ?? " ",
+                    error: !!formErrors.createDate,
+                    helperText: formErrors.createDate ?? " ",
                     fullWidth: true,
                   },
                 }}
@@ -153,44 +163,47 @@ function PostForm(props) {
           </Grid>
           <Grid size={{ xs: 12, sm: 6 }} sx={{ display: "flex" }}>
             <FormControl error={!!formErrors.role} fullWidth>
-              <InputLabel id="employee-role-label">Department</InputLabel>
+              <InputLabel id="tag-label">Post tag</InputLabel>
               <Select
-                value={formValues.role ?? ""}
+                value={formValues.tag ?? ""}
                 onChange={handleSelectFieldChange}
-                labelId="employee-role-label"
-                name="role"
-                label="Department"
-                defaultValue=""
+                labelId="tag-label"
+                name="tag"
+                label="Tag"
+                defaultValue="Misc"
                 fullWidth
               >
-                <MenuItem value="Market">Market</MenuItem>
-                <MenuItem value="Finance">Finance</MenuItem>
-                <MenuItem value="Development">Development</MenuItem>
+                <MenuItem value="Educational">Educational</MenuItem>
+                <MenuItem value="Personal">Personal</MenuItem>
+                <MenuItem value="Misc">Misc</MenuItem>
               </Select>
-              <FormHelperText>{formErrors.role ?? " "}</FormHelperText>
+              <FormHelperText>{formErrors.tag ?? " "}</FormHelperText>
             </FormControl>
           </Grid>
           <Grid size={{ xs: 12, sm: 6 }} sx={{ display: "flex" }}>
             <FormControl>
               <FormControlLabel
-                name="isFullTime"
+                name="isPublished"
                 control={
                   <Checkbox
                     size="large"
-                    checked={formValues.isFullTime ?? false}
+                    checked={formValues.isPublished ?? false}
                     onChange={handleCheckboxFieldChange}
                   />
                 }
-                label="Full-time"
+                label="Published Post"
               />
-              <FormHelperText error={!!formErrors.isFullTime}>
-                {formErrors.isFullTime ?? " "}
+              <FormHelperText error={!!formErrors.isPublished}>
+                {formErrors.isPublished ?? " "}
               </FormHelperText>
             </FormControl>
           </Grid>
         </Grid>
-        {props.children}
       </FormGroup>
+      <TextEditor updateContent={updatePostState} />
+      <Typography variant="overline" sx={{ mb: 2 }}>
+        Remember to save the text editor before submitting!
+      </Typography>
       <Stack direction="row" spacing={2} justifyContent="space-between">
         <Button
           variant="contained"
@@ -216,18 +229,18 @@ PostForm.propTypes = {
   backButtonPath: PropTypes.string,
   formState: PropTypes.shape({
     errors: PropTypes.shape({
-      age: PropTypes.string,
-      isFullTime: PropTypes.string,
-      joinDate: PropTypes.string,
-      name: PropTypes.string,
-      role: PropTypes.string,
+      description: PropTypes.string,
+      isPublished: PropTypes.string,
+      createDate: PropTypes.string,
+      title: PropTypes.string,
+      tag: PropTypes.string,
     }).isRequired,
     values: PropTypes.shape({
-      age: PropTypes.number,
-      isFullTime: PropTypes.bool,
-      joinDate: PropTypes.string,
-      name: PropTypes.string,
-      role: PropTypes.oneOf(["Development", "Finance", "Market"]),
+      description: PropTypes.string,
+      isPublished: PropTypes.bool,
+      createDate: PropTypes.string,
+      title: PropTypes.string,
+      tag: PropTypes.oneOf(["Educational", "Personal", "Misc"]),
     }).isRequired,
   }).isRequired,
   onFieldChange: PropTypes.func.isRequired,

@@ -3,10 +3,8 @@ import { userExists, register } from "../utils/Api";
 import { useNavigate } from "react-router";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Checkbox from "@mui/material/Checkbox";
 import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
 import FormControl from "@mui/material/FormControl";
 import Link from "@mui/material/Link";
@@ -17,11 +15,6 @@ import MuiCard from "@mui/material/Card";
 import { styled } from "@mui/material/styles";
 import AppTheme from "../shared-theme/AppTheme";
 import ColorModeSelect from "../shared-theme/ColorModeSelect";
-import {
-  GoogleIcon,
-  FacebookIcon,
-  SitemarkIcon,
-} from "./components/CustomIcons";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
