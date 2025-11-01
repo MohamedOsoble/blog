@@ -1,4 +1,4 @@
-import { getPosts, newPost } from "../../utils/Api";
+import { getPosts, newPost, updatePost } from "../../utils/Api";
 
 export async function getPostStore(userid) {
   console.log("Get store called");
@@ -85,9 +85,9 @@ export async function getMany({
 }
 
 export async function getOne(postId, userid) {
-  const postsStore = getPostStore(userid);
+  const postsStore = await getPostStore(userid);
 
-  const postToShow = postsStore.find((post) => post.id === postId);
+  const postToShow = postsStore.find((post) => post.id == postId);
 
   if (!postToShow) {
     throw new Error("post not found");
@@ -115,25 +115,11 @@ export async function createOne(data, userid) {
   }
 }
 
-export async function updateOne(postId, data, userid) {
-  const postsStore = await getPostStore(userid);
-
-  let updatedpost = null;
-
-  setpostsStore(
-    postsStore.map((post) => {
-      if (post.id === postId) {
-        updatedpost = { ...post, ...data };
-        return updatedpost;
-      }
-      return post;
-    })
-  );
-
-  if (!updatedpost) {
-    throw new Error("post not found");
-  }
-  return updatedpost;
+export async function updateOne(postId, data) {
+  console.log(`Post ID is ${postId}, and is going to be updated with `);
+  data.postId = data.id;
+  const response = await updatePost(data);
+  return response;
 }
 
 export async function deleteOne(postId, userid) {
@@ -158,10 +144,10 @@ export function validate(post) {
     ];
   }
 
-  if (!post.createDate) {
+  if (!post.createdAt) {
     issues = [
       ...issues,
-      { message: "Create date is required", path: ["createDate"] },
+      { message: "Create date is required", path: ["createdAt"] },
     ];
   }
 

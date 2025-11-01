@@ -31,7 +31,6 @@ function PostForm(props) {
     onReset,
     submitButtonLabel,
     backButtonPath,
-    postState,
     updatePostState,
   } = props;
 
@@ -46,23 +45,18 @@ function PostForm(props) {
   const handleSubmit = React.useCallback(
     async (event) => {
       event.preventDefault();
-
       setIsSubmitting(true);
+      console.log("Submitting the form on PostForm");
       try {
-        await onSubmit(formValues, postState);
+        await onSubmit(formValues);
       } finally {
         setIsSubmitting(false);
       }
     },
-    [formValues, postState, onSubmit]
+    [formValues, onSubmit]
   );
 
   const [formData, setFormData] = React.useState({});
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
-  };
 
   const handleTextFieldChange = React.useCallback(
     (event) => {
@@ -146,15 +140,15 @@ function PostForm(props) {
             >
               <DatePicker
                 value={
-                  formValues.createDate ? dayjs(formValues.createDate) : null
+                  formValues.createdAt ? dayjs(formValues.createdAt) : null
                 }
-                onChange={handleDateFieldChange("createDate")}
-                name="createDate"
+                onChange={handleDateFieldChange("createdAt")}
+                name="createdAt"
                 label="Post created on: "
                 slotProps={{
                   textField: {
-                    error: !!formErrors.createDate,
-                    helperText: formErrors.createDate ?? " ",
+                    error: !!formErrors.createdAt,
+                    helperText: formErrors.createdAt ?? " ",
                     fullWidth: true,
                   },
                 }}
@@ -200,7 +194,10 @@ function PostForm(props) {
           </Grid>
         </Grid>
       </FormGroup>
-      <TextEditor updateContent={updatePostState} />
+      <TextEditor
+        updateContent={updatePostState}
+        content={formState.values.content ? formState.values.content : null}
+      />
       <Typography variant="overline" sx={{ mb: 2 }}>
         Remember to save the text editor before submitting!
       </Typography>
@@ -231,14 +228,13 @@ PostForm.propTypes = {
     errors: PropTypes.shape({
       description: PropTypes.string,
       isPublished: PropTypes.string,
-      createDate: PropTypes.string,
+      createdAt: PropTypes.string,
       title: PropTypes.string,
       tag: PropTypes.string,
     }).isRequired,
     values: PropTypes.shape({
       description: PropTypes.string,
       isPublished: PropTypes.bool,
-      createDate: PropTypes.string,
       title: PropTypes.string,
       tag: PropTypes.oneOf(["Educational", "Personal", "Misc"]),
     }).isRequired,

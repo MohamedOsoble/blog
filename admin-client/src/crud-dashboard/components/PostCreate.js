@@ -14,6 +14,7 @@ import { useUser } from "../../utils/Auth";
 const INITIAL_FORM_VALUES = {
   title: "Default Title",
   description: "Default description",
+  createdAt: Date.now(),
   tag: "Misc",
   isPublished: false,
   content: "",

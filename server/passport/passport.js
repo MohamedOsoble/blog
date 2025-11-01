@@ -3,13 +3,23 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const { PrismaClient } = require("../generated/prisma");
 const JwtStrategy = require("passport-jwt").Strategy;
-const ExtractJwt = require("passport-jwt").ExtractJwt;
 const validPassword = require("../lib/utils").validPassword;
 
-// Instantiate Prisma Client & Load jwt options
+// Instantiate Prisma Client & Cookie extractor
 const Prisma = new PrismaClient();
+
+const cookieExtractor = function (req) {
+  let token = "";
+  if (req.cookies["jwt"]) {
+    const cookie = req.cookies?.["jwt"]["token"].split(" ");
+    token = cookie[0];
+  }
+  return token;
+};
+
+// JWT Options
 const JWTOptions = {
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  jwtFromRequest: cookieExtractor,
   secretOrKey: process.env.SECRET_KEY,
 };
 

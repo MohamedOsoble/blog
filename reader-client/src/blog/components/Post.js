@@ -96,6 +96,10 @@ function Loading() {
   );
 }
 
+function PostContent({ content }) {
+  return <div dangerouslySetInnerHTML={{ __html: content }}></div>;
+}
+
 export default function Post() {
   const { postId } = useParams();
   const [data, setData] = useState(null);
@@ -139,7 +143,7 @@ export default function Post() {
           </Typography>
         </div>
         <Grid container spacing={8} columns={12} sx={{ my: 4 }}>
-          <StyledTypography>{data.post.content}</StyledTypography>
+          <PostContent content={data.post.content}></PostContent>
         </Grid>
         <Box
           sx={{

@@ -1,5 +1,6 @@
 const express = require("express");
 const routes = require("./routes");
+const cookieParser = require("cookie-parser");
 const cors = require("cors");
 require("./passport/passport");
 
@@ -8,7 +9,21 @@ const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cors());
+app.use(cookieParser());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3001",
+      "http://localhost:3002",
+      "http://localhost:3000",
+    ],
+    credentials: true,
+    sameSite: "lax",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    exposedHeaders: ["set-cookie"],
+  })
+);
 
 // Add the routes
 app.use("/posts", routes.posts);

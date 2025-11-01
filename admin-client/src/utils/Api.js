@@ -58,3 +58,9 @@ export async function newPost(postData) {
   const response = await axios.post(postAPI, postData, options);
   return response;
 }
+
+export async function updatePost(postData) {
+  const postAPI = API + "/posts/";
+  const response = await axios.put(postAPI, postData, options);
+  return response;
+}

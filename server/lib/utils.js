@@ -2,6 +2,7 @@ const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const { body, validationResult } = require("express-validator");
 const { PrismaClient } = require("../generated/prisma");
+const { use } = require("passport");
 
 // Instantiate Prisma Client
 const Prisma = new PrismaClient();
@@ -31,6 +32,7 @@ module.exports.issueJWT = (user) => {
   const payload = {
     sub: id,
     iat: Date.now(),
+    role: user.role,
   };
 
   const signedToken = jwt.sign(payload, process.env.SECRET_KEY, {
@@ -38,8 +40,10 @@ module.exports.issueJWT = (user) => {
   });
 
   return {
-    token: "Bearer " + signedToken,
-    expires: expiresIn,
+    token: signedToken,
+    id: payload.sub,
+    issuedAt: payload.iat,
+    role: payload.role,
   };
 };
 

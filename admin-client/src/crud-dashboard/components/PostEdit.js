@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useUser } from "../../utils/Auth";
 import PropTypes from "prop-types";
 import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
@@ -6,15 +7,15 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate, useParams } from "react-router";
 import useNotifications from "../hooks/useNotifications/useNotifications";
 import {
-  getOne as getEmployee,
-  updateOne as updateEmployee,
-  validate as validateEmployee,
+  getOne as getPost,
+  updateOne as updatePost,
+  validate as validatePost,
 } from "../data/posts";
 import PostForm from "./PostForm";
 import PageContainer from "./PageContainer";
 
-function EmployeeEditForm({ initialValues, onSubmit }) {
-  const { employeeId } = useParams();
+function PostEditForm({ initialValues, onSubmit }) {
+  const { postId } = useParams();
   const navigate = useNavigate();
 
   const notifications = useNotifications();
@@ -43,7 +44,7 @@ function EmployeeEditForm({ initialValues, onSubmit }) {
   const handleFormFieldChange = React.useCallback(
     (name, value) => {
       const validateField = async (values) => {
-        const { issues } = validateEmployee(values);
+        const { issues } = validatePost(values);
         setFormErrors({
           ...formErrors,
           [name]: issues?.find((issue) => issue.path?.[0] === name)?.message,
@@ -63,7 +64,7 @@ function EmployeeEditForm({ initialValues, onSubmit }) {
   }, [initialValues, setFormValues]);
 
   const handleFormSubmit = React.useCallback(async () => {
-    const { issues } = validateEmployee(formValues);
+    const { issues } = validatePost(formValues);
     if (issues && issues.length > 0) {
       setFormErrors(
         Object.fromEntries(
@@ -75,24 +76,26 @@ function EmployeeEditForm({ initialValues, onSubmit }) {
     setFormErrors({});
 
     try {
+      console.log("Trying to submit form on postedit export...");
       await onSubmit(formValues);
-      notifications.show("Employee edited successfully.", {
+      notifications.show("Post edited successfully.", {
         severity: "success",
         autoHideDuration: 3000,
       });
 
-      navigate("/employees");
+      navigate("/posts");
     } catch (editError) {
-      notifications.show(
-        `Failed to edit employee. Reason: ${editError.message}`,
-        {
-          severity: "error",
-          autoHideDuration: 3000,
-        }
-      );
+      notifications.show(`Failed to edit post. Reason: ${editError.message}`, {
+        severity: "error",
+        autoHideDuration: 3000,
+      });
       throw editError;
     }
   }, [formValues, navigate, notifications, onSubmit, setFormErrors]);
+
+  const updatePostState = (content) => {
+    handleFormFieldChange("content", content);
+  };
 
   return (
     <PostForm
@@ -100,27 +103,29 @@ function EmployeeEditForm({ initialValues, onSubmit }) {
       onFieldChange={handleFormFieldChange}
       onSubmit={handleFormSubmit}
       onReset={handleFormReset}
+      updatePostState={updatePostState}
+      postState={formState.values.content}
       submitButtonLabel="Save"
-      backButtonPath={`/employees/${employeeId}`}
+      backButtonPath={`/posts/${postId}`}
     />
   );
 }
 
-EmployeeEditForm.propTypes = {
+PostEditForm.propTypes = {
   initialValues: PropTypes.shape({
-    age: PropTypes.number,
-    isFullTime: PropTypes.bool,
-    joinDate: PropTypes.string,
-    name: PropTypes.string,
-    role: PropTypes.oneOf(["Development", "Finance", "Market"]),
+    description: PropTypes.string,
+    isPublished: PropTypes.bool,
+    title: PropTypes.string,
+    tag: PropTypes.oneOf(["Educational", "Personal", "Misc"]),
   }).isRequired,
   onSubmit: PropTypes.func.isRequired,
 };
 
-export default function EmployeeEdit() {
-  const { employeeId } = useParams();
+export default function PostEdit() {
+  const { postId } = useParams();
+  const { user } = useUser();
 
-  const [employee, setEmployee] = React.useState(null);
+  const [post, setPost] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
 
@@ -129,14 +134,14 @@ export default function EmployeeEdit() {
     setIsLoading(true);
 
     try {
-      const showData = await getEmployee(Number(employeeId));
+      const showData = await getPost(postId, user);
 
-      setEmployee(showData);
+      setPost(showData);
     } catch (showDataError) {
       setError(showDataError);
     }
     setIsLoading(false);
-  }, [employeeId]);
+  }, [postId]);
 
   React.useEffect(() => {
     loadData();
@@ -144,10 +149,11 @@ export default function EmployeeEdit() {
 
   const handleSubmit = React.useCallback(
     async (formValues) => {
-      const updatedData = await updateEmployee(Number(employeeId), formValues);
-      setEmployee(updatedData);
+      console.log("Handle submit called");
+      const updatedData = await updatePost(postId, formValues);
+      setPost(updatedData);
     },
-    [employeeId]
+    [postId]
   );
 
   const renderEdit = React.useMemo(() => {
@@ -176,17 +182,17 @@ export default function EmployeeEdit() {
       );
     }
 
-    return employee ? (
-      <EmployeeEditForm initialValues={employee} onSubmit={handleSubmit} />
+    return post ? (
+      <PostEditForm initialValues={post} onSubmit={handleSubmit} />
     ) : null;
-  }, [isLoading, error, employee, handleSubmit]);
+  }, [isLoading, error, post, handleSubmit]);
 
   return (
     <PageContainer
-      title={`Edit Employee ${employeeId}`}
+      title={`Edit Post ${postId}`}
       breadcrumbs={[
-        { title: "Employees", path: "/employees" },
-        { title: `Employee ${employeeId}`, path: `/employees/${employeeId}` },
+        { title: "Posts", path: "/posts" },
+        { title: `Post ${postId}`, path: `/posts/${postId}` },
         { title: "Edit" },
       ]}
     >

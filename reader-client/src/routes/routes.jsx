@@ -1,7 +1,6 @@
 import Index from "../blog/Blog";
 import Post from "../blog/components/Post";
 import Home from "../blog/components/Latest";
-//import Item from "../components/shop/item";
 import ErrorPage from "../error/error";
 
 const routes = [

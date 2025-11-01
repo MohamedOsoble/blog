@@ -4,9 +4,9 @@ import Dashboard from "../crud-dashboard/CrudDashboard";
 import ErrorPage from "../error/ErrorPage";
 import DashboardLayout from "../crud-dashboard/components/DashboardLayout";
 import PostList from "../crud-dashboard/components/PostList";
-import EmployeeShow from "../crud-dashboard/components/EmployeeShow";
-import EmployeeCreate from "../crud-dashboard/components/EmployeeCreate";
-import EmployeeEdit from "../crud-dashboard/components/EmployeeEdit";
+import PostShow from "../crud-dashboard/components/PostShow";
+import PostCreate from "../crud-dashboard/components/PostCreate";
+import PostEdit from "../crud-dashboard/components/PostEdit";
 
 const AuthenticatedRoutes = [
   {
@@ -19,15 +19,15 @@ const AuthenticatedRoutes = [
       },
       {
         path: "/posts/:postId",
-        Component: EmployeeShow,
+        Component: PostShow,
       },
       {
         path: "/posts/new",
-        Component: EmployeeCreate,
+        Component: PostCreate,
       },
       {
         path: "/posts/:postId/edit",
-        Component: EmployeeEdit,
+        Component: PostEdit,
       },
       // Fallback route for the example routes in dashboard sidebar items
       {

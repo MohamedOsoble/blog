@@ -29,19 +29,26 @@ module.exports.postById = async function (req, res, next) {
 };
 
 module.exports.postsByAuthor = async function (req, res, next) {
+  console.log(req.params.authorId);
   return res.json(
     await Prisma.posts.findMany({
       where: { authorId: req.params.authorId },
-    })
+    }),
+    { message: "this is the response" }
   );
 };
 
 module.exports.newPost = async function (req, res, next) {
+  console.log("Adding new post");
+  console.log(req.body);
   return res.json(
     await Prisma.posts.create({
       data: {
         title: req.body.title,
         content: req.body.content,
+        tag: req.body.tag,
+        description: req.body.description,
+        createdAt: req.body.createdAt,
         authorId: req.body.authorId,
         isPublished: req.body.isPublished,
       },
