@@ -36,7 +36,7 @@ const LogoContainer = styled("div")({
 
 function DashboardHeader({ logo, title, menuOpen, onToggleMenu }) {
   const theme = useTheme();
-  const { user, logout } = useUser();
+  const { logout } = useUser();
 
   const handleMenuOpen = React.useCallback(() => {
     onToggleMenu(!menuOpen);

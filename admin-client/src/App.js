@@ -1,5 +1,5 @@
 import CrudDashboard from "./crud-dashboard/CrudDashboard";
-import { UserProvider, useUser } from "./utils/Auth";
+import { UserProvider } from "./utils/Auth";
 import "./App.css";
 
 function App() {

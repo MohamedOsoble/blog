@@ -7,8 +7,6 @@ import {
 } from "../data/posts";
 import PostForm from "./PostForm";
 import PageContainer from "./PageContainer";
-import TextEditor from "./TextEditor";
-import { setContent } from "@tiptap/core";
 import { useUser } from "../../utils/Auth";
 
 const INITIAL_FORM_VALUES = {
@@ -101,7 +99,7 @@ export default function PostCreate() {
       );
       throw createError;
     }
-  }, [formValues, navigate, notifications, setFormErrors]);
+  }, [formValues, navigate, notifications, setFormErrors, user]);
 
   const updatePostState = (content) => {
     handleFormFieldChange("content", content);

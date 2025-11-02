@@ -1,13 +1,7 @@
-import Brightness4Icon from "@mui/icons-material/Brightness4";
-import Brightness7Icon from "@mui/icons-material/Brightness7";
 import {
-  AppBar,
   Box,
   CssBaseline,
-  IconButton,
   ThemeProvider,
-  Toolbar,
-  Typography,
   createTheme,
   useMediaQuery,
 } from "@mui/material";
@@ -40,7 +34,7 @@ export default function App(props) {
   );
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme} togglePaletteMode={togglePaletteMode}>
       <CssBaseline />
       <Box sx={{ p: 3, maxWidth: 1207, margin: "0 auto" }}>
         <Editor props={props} />

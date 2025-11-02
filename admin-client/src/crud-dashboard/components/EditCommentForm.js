@@ -109,7 +109,7 @@ export default function CustomDialogWithPayloadAdvanced({ comment, loadData }) {
   const [formData, setFormData] = React.useState(comment);
   const contextValue = React.useMemo(
     () => ({ formData, setFormData, loadData }),
-    [formData]
+    [formData, loadData]
   );
 
   return (

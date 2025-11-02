@@ -23,7 +23,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
-import { deleteComment, updateComment } from "../../utils/Api";
+import { deleteComment } from "../../utils/Api";
 import CustomDialogWithPayloadAdvanced from "./EditCommentForm";
 
 export default function PostShow() {
@@ -52,44 +52,11 @@ export default function PostShow() {
       setError(showDataError);
     }
     setIsLoading(false);
-  }, [postId, setComments]);
+  }, [postId, setComments, user]);
 
   React.useEffect(() => {
     loadData();
   }, [loadData]);
-
-  const handleDeleteComment = async (comment) => {
-    const confirmed = await dialogs.confirm(
-      `Do you wish to delete "${comment.name}: ${comment.content}"?`,
-      {
-        title: `Delete comment?`,
-        severity: "error",
-        okText: "Delete",
-        cancelText: "Cancel",
-      }
-    );
-
-    if (confirmed) {
-      setIsLoading(true);
-      try {
-        await deleteComment(comment.id);
-        loadData();
-        notifications.show("comment deleted successfully.", {
-          severity: "success",
-          autoHideDuration: 3000,
-        });
-      } catch (deleteError) {
-        notifications.show(
-          `Failed to delete post. Reason:' ${deleteError.message}`,
-          {
-            severity: "error",
-            autoHideDuration: 3000,
-          }
-        );
-      }
-      setIsLoading(false);
-    }
-  };
 
   const handlePostEdit = React.useCallback(() => {
     navigate(`/posts/${postId}/edit`);
@@ -163,6 +130,39 @@ export default function PostShow() {
         </Box>
       );
     }
+
+    const handleDeleteComment = async (comment) => {
+      const confirmed = await dialogs.confirm(
+        `Do you wish to delete "${comment.name}: ${comment.content}"?`,
+        {
+          title: `Delete comment?`,
+          severity: "error",
+          okText: "Delete",
+          cancelText: "Cancel",
+        }
+      );
+
+      if (confirmed) {
+        setIsLoading(true);
+        try {
+          await deleteComment(comment.id);
+          loadData();
+          notifications.show("comment deleted successfully.", {
+            severity: "success",
+            autoHideDuration: 3000,
+          });
+        } catch (deleteError) {
+          notifications.show(
+            `Failed to delete post. Reason:' ${deleteError.message}`,
+            {
+              severity: "error",
+              autoHideDuration: 3000,
+            }
+          );
+        }
+        setIsLoading(false);
+      }
+    };
 
     const RenderReply = ({ reply }) => {
       return (
@@ -337,7 +337,18 @@ export default function PostShow() {
         </Stack>
       </Box>
     ) : null;
-  }, [isLoading, error, post, handleBack, handlePostEdit, handlePostDelete]);
+  }, [
+    isLoading,
+    error,
+    post,
+    handleBack,
+    handlePostEdit,
+    handlePostDelete,
+    comments,
+    loadData,
+    dialogs,
+    notifications,
+  ]);
 
   const pageTitle = `Post ${postId}`;
 

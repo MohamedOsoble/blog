@@ -103,7 +103,7 @@ export default function SignUp(props) {
       isValid = false;
     }
 
-    if (isAlphaNumeric(name.value) == false) {
+    if (isAlphaNumeric(name.value) === false) {
       setNameError(true);
       setNameErrorMessage(
         "Username must only contain Alphanumerical characters"
@@ -117,7 +117,7 @@ export default function SignUp(props) {
       isValid = false;
     }
 
-    if (password.value != cpassword.value) {
+    if (password.value !== cpassword.value) {
       setPasswordError(true);
       setPasswordErrorMessage("Passwords must match");
       isValid = false;
@@ -143,12 +143,12 @@ export default function SignUp(props) {
     };
     const isFormValid = validateInputs();
 
-    if (nameError || passwordError || isFormValid == false) {
+    if (nameError || passwordError || isFormValid === false) {
       return;
     }
 
     try {
-      const response = await register(data);
+      await register(data);
       navigate("/sign-in");
     } catch (error) {
       console.log(error.response);

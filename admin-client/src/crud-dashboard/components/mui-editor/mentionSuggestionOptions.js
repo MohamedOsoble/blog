@@ -1,4 +1,3 @@
-import { MentionOptions } from "@tiptap/extension-mention";
 import { ReactRenderer } from "@tiptap/react";
 import tippy from "tippy.js";
 import SuggestionList from "./SuggestionList";

@@ -2,7 +2,7 @@ import * as React from "react";
 import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import { useUser, UserProvider } from "../../utils/Auth";
+import { useUser } from "../../utils/Auth";
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import Tooltip from "@mui/material/Tooltip";
@@ -16,7 +16,6 @@ import { useDialogs } from "../hooks/useDialogs/useDialogs";
 import useNotifications from "../hooks/useNotifications/useNotifications";
 import { deleteOne as deletePost, getMany as getPosts } from "../data/posts";
 import PageContainer from "./PageContainer";
-import axios from "axios";
 
 const INITIAL_PAGE_SIZE = 10;
 

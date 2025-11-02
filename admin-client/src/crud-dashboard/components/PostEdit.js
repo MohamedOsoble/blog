@@ -141,7 +141,7 @@ export default function PostEdit() {
       setError(showDataError);
     }
     setIsLoading(false);
-  }, [postId]);
+  }, [postId, user]);
 
   React.useEffect(() => {
     loadData();

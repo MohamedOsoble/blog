@@ -46,9 +46,9 @@ export default function DashboardLayout() {
 
   const layoutRef = React.useRef(null);
 
-  const { user, logout } = useUser();
+  const { user } = useUser();
 
-  if (user != false) {
+  if (user !== false) {
     return (
       <Box
         ref={layoutRef}

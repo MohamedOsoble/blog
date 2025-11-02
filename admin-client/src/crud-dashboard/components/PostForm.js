@@ -36,7 +36,6 @@ function PostForm(props) {
 
   const formValues = formState.values;
   const formErrors = formState.errors;
-  const [currentVal, setCurrentVal] = React.useState();
 
   const navigate = useNavigate();
 
@@ -55,8 +54,6 @@ function PostForm(props) {
     },
     [formValues, onSubmit]
   );
-
-  const [formData, setFormData] = React.useState({});
 
   const handleTextFieldChange = React.useCallback(
     (event) => {

@@ -1,5 +1,4 @@
-import * as React from "react";
-import { UserProvider, useUser } from "../utils/Auth";
+import { useUser } from "../utils/Auth";
 import CssBaseline from "@mui/material/CssBaseline";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import NotificationsProvider from "./hooks/useNotifications/NotificationsProvider";
