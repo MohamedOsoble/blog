@@ -33,6 +33,12 @@ module.exports.postsByAuthor = async function (req, res, next) {
   return res.json(
     await Prisma.posts.findMany({
       where: { authorId: req.params.authorId },
+      include: {
+        comments: {
+          where: { parentCommentId: null },
+          include: { replies: true },
+        },
+      },
     }),
     { message: "this is the response" }
   );

@@ -54,6 +54,7 @@
     "@tiptap/extension-text-style": "^3.10.1",
     "@tiptap/extension-underline": "^3.1.0",
     "@tiptap/starter-kit": "^3.10.1",
+    "@toolpad/core": "^0.16.0",
     "axios": "^1.13.1",
     "dayjs": "^1.11.19",
     "draft-js": "^0.11.7",

@@ -43,3 +43,20 @@ module.exports.dislikeComment = async function (req, res, next) {
     })
   );
 };
+
+module.exports.deleteComment = async function (req, res, next) {
+  return res.json(
+    await Prisma.comments.delete({
+      where: { id: req.params.commentId },
+    })
+  );
+};
+
+module.exports.updateComment = async function (req, res, next) {
+  return res.json(
+    await Prisma.comments.update({
+      where: { id: req.params.commentId },
+      data: { name: req.body.name, content: req.body.content },
+    })
+  );
+};

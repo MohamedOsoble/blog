@@ -54,7 +54,6 @@ function UserProvider(props) {
 // use user context hook
 function useUser() {
   const context = React.useContext(UserContext);
-  console.log("Use User called");
   if (context === undefined) {
     throw new Error("useUser() must be used within a UserProvider");
   }

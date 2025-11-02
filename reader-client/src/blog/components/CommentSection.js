@@ -86,10 +86,15 @@ const CommentSection = ({ postId }) => {
       });
   };
 
+  const removeComment = (commentId) => {
+    return comments.filter((comment) => comment.id === commentId);
+  };
+
   const handleReply = (comment) => {
     const parentComment = comments.find(({ id }) => id === comment.parent);
+    const updatedComments = removeComment(comment.parent);
     parentComment.replies = [...parentComment.replies, comment];
-    setComments([...comments]);
+    setComments([...updatedComments, parentComment]);
     axios
       .post(API + "comments/" + postId + "/" + comment.parent, {
         name: comment.name,

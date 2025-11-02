@@ -64,3 +64,15 @@ export async function updatePost(postData) {
   const response = await axios.put(postAPI, postData, options);
   return response;
 }
+
+export async function deleteComment(commentId) {
+  const commentAPI = API + "/comments/" + commentId;
+  const response = await axios.delete(commentAPI, options);
+  return response;
+}
+
+export async function updateComment(commentData) {
+  const commentAPI = API + "/comments/" + commentData.id;
+  const response = await axios.put(commentAPI, commentData, options);
+  return response;
+}
